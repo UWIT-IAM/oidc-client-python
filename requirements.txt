@@ -1,0 +1,3 @@
+Flask-pyoidc
+python-dotenv
+gunicorn
