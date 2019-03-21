@@ -21,4 +21,4 @@ PREFERRED_URL_SCHEME = os.getenv("PREFERRED_URL_SCHEME")
 OIDC_ISSUER          = os.getenv("OIDC_ISSUER")
 
 # OIDC Scopes... set as space seperated
-OIDC_SCOPES={'scope': ['openid', 'email']}
+OIDC_SCOPES={'scope': os.getenv("OIDC_SCOPES").split()}
