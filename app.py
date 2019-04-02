@@ -3,6 +3,7 @@ import datetime
 import logging
 import flask
 import logging
+import json
 
 from flask import Flask, jsonify
 from flask_pyoidc.flask_pyoidc import OIDCAuthentication
@@ -33,17 +34,26 @@ config = ProviderConfiguration(issuer=issuer, client_metadata=client_metadata, a
 auth = OIDCAuthentication({'default': config}, app)
 
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def root():
+    return '<a href="/auth">/auth</a> to login <br> <a href="/reauth">/reauth</a> for forced reauth <br> <a href="/2fa">/2fa</a> for DUO and <a href="/reauth-2fa">/reauth-2fa</a>'
 
-@app.route('/login')
+@app.route('/auth')
 @auth.oidc_auth('default')
-def login():
-    print('we logged in')
-    user_session = UserSession(flask.session)
-    return jsonify(access_token=user_session.access_token,
-                   id_token=user_session.id_token,
-                   userinfo=user_session.userinfo)
+def basic():
+    user = UserSession(flask.session)
+    print(f'{user.id_token["sub"]} logged in')
+
+    message = 'To logout use <a href="/logout">/logout</a>'
+    print(user)
+    data = {
+        'access_token': user.access_token,
+        'id_token':     user.id_token,
+        'userinfo':     user.userinfo
+    }
+
+    message += f'<pre>{json.dumps(data, indent=2)}</pre>'
+
+    return message
 
 @app.route('/logout')
 @auth.oidc_logout

@@ -2,16 +2,14 @@
 
 Running this locally and hitting the endpoint `/login` will redirect you to the IdP.  However, by design, your client ID and host url that you run this on must be registered at our IdP and match what gets posted to the IdP endpoints.
 
-## Setup - Running Locally
+## Setup - Running Locally Docker
 
-1. Copy `.env-tmp` to `.env` and add real values
-2. Run `FLASK_ENV=development FLASK_APP=app.py flask run`
-
-## Setup - Running in Docker
-
+1. Choose a domain that you will use, it should look like this and be also registered with the IdP as a redirect URL ... `http://[your domain].com/redirect_uri`.
+1. Add `127.0.0.1 [your domain].com` to `/etc/hosts`
 1. Copy `.env-tmp` to `.env` and add real values
 1. `docker build -t oidc-python:latest .`
-1. `docker run --env-file .env -p 8000:8000 oidc-python`
+1. `docker run --env-file .env -p 80:8000 oidc-python`
+1. Open `http://[your domain].com`
 
 ## Setup - Running in Minikube
 
@@ -28,6 +26,7 @@ Running this locally and hitting the endpoint `/login` will redirect you to the 
 1. Create a service.yml and deployment.yml using `/examples/kubernetes`
 1. Apply the yml `kubectl apply -f ./examples/kubernetes/`
 1. Make a request to `/`, you should not get a 404 `curl $(minikube service oidc-python --url)`
+1. You can also load this in the browser by getting the url `minikube service oidc-python --url` and then add to your `/etc/hosts` file that url:port like `[url:port]  [your domain]`.
 
 ## Setup - Running in Kubernetes
 
