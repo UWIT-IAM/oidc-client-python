@@ -1,0 +1,19 @@
+<!doctype html>
+<title>Flask OIDC</title>
+<H2>OIDC Login with UW Shibboleth OIDC Provider</H2>
+<p>
+  Warning: This app does not support automatic Step Up auth.  If an SSO session exist, and you then later want 2fa you must logout the user like the example at <a href="/stepup">/stepup</a>
+</p>
+<p>
+  <li><a href="/auth">/auth</a> to login</li>
+  <li><a href="/reauth">/reauth</a> for login that forces re-auth with the IdP</li>
+  <li><a href="/2fa">/2fa</a> for login that requires a second factor (DUO)</li>
+  <li><a href="/stepup">/stepup</a> for login that forces stepup to 2fa</li>
+  <li><a href="/logout">/logout</a> to logout</li>
+</p>
+{% if tokens %}
+<H2>OIDC Tokens</H2>
+<pre>
+  {{ tokens }}
+</pre>
+{% endif %}

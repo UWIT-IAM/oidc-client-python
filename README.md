@@ -1,15 +1,15 @@
 # Python OIDC with UW IdP
 
-Running this locally and hitting the endpoint `/login` will redirect you to the IdP.  However, by design, your client ID and host url that you run this on must be registered at our IdP and match what gets posted to the IdP endpoints.
+This project implements the OIDC Certified RP Python module `pyoidc` for server based Python Flask applications using [`Flask-pyoidc`](https://www.npmjs.com/package/openid-client).
 
 ## Setup - Running Locally Docker
 
-1. Choose a domain that you will use, it should look like this and be also registered with the IdP as a redirect URL ... `http://[your domain].com/redirect_uri`.
-1. Add `127.0.0.1 [your domain].com` to `/etc/hosts`
-1. Copy `.env-tmp` to `.env` and add real values
+1. Choose a domain that you will use, it should look like this and be also registered with the IdP as a redirect URL ... `http://[your domain]/redirect_uri`.
+1. Add `127.0.0.1 [your domain]` to `/etc/hosts`
+1. Copy `.env-tmp` to `.env` and add real values making sure `SERVER_NAME` matches `[your domain]`.
 1. `docker build -t oidc-python:latest .`
 1. `docker run --env-file .env -p 80:8000 oidc-python`
-1. Open `http://[your domain].com`
+1. Open `http://[your domain]`
 
 ## Setup - Running in Minikube
 
