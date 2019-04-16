@@ -22,3 +22,6 @@ OIDC_ISSUER          = os.getenv("OIDC_ISSUER")
 
 # OIDC Scopes... set as space seperated
 OIDC_SCOPES={'scope': os.getenv("OIDC_SCOPES").split()}
+
+# Cookies
+PERMANENT_SESSION_LIFETIME = int(os.getenv("COOKIE_LIFETIME"))

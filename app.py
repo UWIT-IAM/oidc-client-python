@@ -19,10 +19,7 @@ if __name__ != '__main__':
     app.logger.handlers = gunicorn_logger.handlers
     app.logger.setLevel(gunicorn_logger.level)
 
-app.logger.debug('Loading app.py')
-
 app.config.from_pyfile('settings.py')
-app.config.update({'PERMANENT_SESSION_LIFETIME': datetime.timedelta(days=7).total_seconds()})
 
 issuer        = app.config['OIDC_ISSUER']
 client        = app.config['OIDC_CLIENT']
@@ -38,7 +35,7 @@ auth = OIDCAuthentication({'default': config}, app)
 def get_user_data():
     if flask.session:
         user = UserSession(flask.session)
-        print(f'{user.id_token["sub"]} logged in')
+        app.logger.info(f'{user.id_token["sub"]} logged in')
 
         data = {
             'access_token': user.access_token,
