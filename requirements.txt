@@ -1,3 +1,4 @@
+Flask
 Flask-pyoidc
 python-dotenv
 gunicorn

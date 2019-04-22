@@ -10,8 +10,13 @@ from flask import Flask, jsonify, redirect, abort, render_template, url_for
 from flask_pyoidc.flask_pyoidc import OIDCAuthentication
 from flask_pyoidc.provider_configuration import ProviderConfiguration, ClientMetadata
 from flask_pyoidc.user_session import UserSession
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
+
+# ProxyFix is used so that flask_pyoidc works behind a TLS proxy
+# https://github.com/zamzterz/Flask-pyoidc/issues/44#issuecomment-484819437
+app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1)
 
 # https://medium.com/@trstringer/logging-flask-and-gunicorn-the-manageable-way-2e6f0b8beb2f
 if __name__ != '__main__':
